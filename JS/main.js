@@ -1,0 +1,1 @@
+$("field").click(new Mole);

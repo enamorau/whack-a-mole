@@ -1,0 +1,12 @@
+#field {
+  border: solid red 1px;
+  cursor: url(./img/1hammer.cur), default;
+}
+
+#start-game {
+  border: solid black 2px;
+}
+
+.mole {
+  background-image: url(./img/1Mole.png)
+}
