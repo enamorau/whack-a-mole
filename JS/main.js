@@ -1,12 +1,14 @@
-$(document).ready (function(){
+var onClickMole = function() {
+  (function loop() {
+    var rand = Math.round(Math.random() * (800 - 500)) + 500;
+    setTimeout(function() {
+      var newMole = new Mole();
+      newMole.draw();
+      loop();
+    }, rand);
+  })();
+};
 
-  var onClickMole = function(){
-    var newMole = new Mole();
-    console.log("4444")
-    newMole.draw()
-    }
-
-$("#field").click(onClickMole);
-
+$(document).ready(function() {
+  $("#start-game").click(onClickMole);
 });
-
