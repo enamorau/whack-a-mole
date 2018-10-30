@@ -14,7 +14,7 @@ var gameOver = function() {
   this.moleyTotal = [];
   this.ctx.clearRect(0, 0, 500, 500);
   gamestatus = false;
-  moleTimer.i = 0
+  // moleTimer.i = 0
 };
 
 // TODO creating a Gameplay object
@@ -84,24 +84,34 @@ randomTimeL1 = function() {
 
 function moleTimer() {
   var rand = Math.round(Math.random() * 500); //+ 500;
-  this.i = 0
-  
-  do {
-    var newMole = new Mole();
-    i ++;
-  } while (
-    ((molexTotal[i] < (newMole.x + 150)) && (molexTotal[i] > (newMole.x - 150))) ||
-    ((molexTotal[i] < (newMole.x + 150)) && (molexTotal[i] > (newMole.x - 150)))
-  );
-
+  var newMole = new Mole();
   newMole.draw();
-
   cumulaT += rand;
   cumulaM++;
-  console.log(newMole.x );
+  //console.log(i);
   if (cumulaM >= 10) {
     gameOver();
   } else {
     setTimeout(moleTimer, rand);
   }
+}
+
+function moleChecker() {
+  moleGod()
+/*
+  for (var i = 0; i < molexTotal.length; i++) {
+    if (i=0) {
+      moleGod()
+    }
+    else if (
+      (molexTotal[i] > newMole.x + 150 && molexTotal[i] < newMole.x - 150) ||
+      (moleyTotal[i] > newMole.y + 150 && moleyTotal[i] < newMole.y - 150)
+    ) {
+      moleGod()
+    }
+    else {
+      moleGod()
+      }
+    }
+  }*/
 }
