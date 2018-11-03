@@ -7,6 +7,10 @@
   border: solid black 2px;
 }
 
+.clicked {
+background-color: red;
+}
+
 .mole {
   background-image: url(./img/1Mole.png)
 }

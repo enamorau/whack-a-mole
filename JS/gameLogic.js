@@ -1,19 +1,22 @@
-// create a game function
+// Game functions
 var gameStatus = false;
 
-var startGame = function() {
+var startGame = function () {
   setTimeout(moleTimer, 1000);
   gameStatus = true;
 };
-var gameOver = function() {
+
+var gameOver = function () {
   this.canvas = document.getElementById("field");
   this.ctx = this.canvas.getContext("2d");
-  alert("Gameover !");
-  this.cumulaM = 0;
+  this.cumulaM = -1;
   this.molexTotal = [];
   this.moleyTotal = [];
-  this.ctx.clearRect(0, 0, 500, 500);
-  gamestatus = false;
+  this.erase = ctx.clearRect(0, 0, 500, 500);
+  this.setTimeout(this.erase, 10000);
+  this.gameStatus = false;
+  $("#start-game").html("new game ?")
+  console.log("Gameover !");
   // moleTimer.i = 0
 };
 
@@ -23,10 +26,10 @@ var gameOver = function() {
 
 function Player() {
   this.arearadius = 50;
-  this.attackMoles = function() {};
+  this.attackMoles = function () { };
 }
 
-// TODO creating a Mole object
+// Mole prototype
 
 function Mole() {
   this.canvas = document.getElementById("field");
@@ -37,9 +40,9 @@ function Mole() {
 
   this.total = 0;
 
-  this.draw = function() {
+  this.draw = function () {
     var img = new Image();
-    img.onload = function() {
+    img.onload = function () {
       this.ctx.drawImage(img, this.x, this.y, 34, 56);
     }.bind(this);
     img.src = "./img/1Mole.png";
@@ -48,70 +51,65 @@ function Mole() {
   };
 }
 
-var moleXGenerator = function() {
+var moleXGenerator = function () {
   var moleX = Math.floor(Math.random() * 500);
   if (moleX > 500 - 34) return 500 - 33;
   else return moleX;
 };
 
-var moleYGenerator = function() {
+var moleYGenerator = function () {
   var moleY = Math.floor(Math.random() * 500);
   if (moleY > 500 - 46) return 500 - 57;
   return moleY;
 };
 
-var cumulaM = 0;
+// global variables
 
-var cumulaT = 0;
+var cumulaM = 0; // number of moles displayed 
 
-var molexTotal = [];
+var cumulaT = 0; // time to display each mole cumulated
 
-var moleyTotal = [];
+var molexTotal = []; //  X positions for each mole generated
 
-//time functions
+var moleyTotal = []; //  Y positions for each mole generated
 
-randomTimeL1 = function() {
-  var randT = Math.floor(Math.random() * 2000);
+var rand = Math.round(Math.random() * 500); //+ 500; Random time between each mole
 
-  if (randT < 1000) {
-    cumulaT.push(1000);
-    return 1000;
-  } else {
-    cumulaT.push(randT);
-    return randT;
-  }
-};
+//Mole generator not working properly below 
+
 
 function moleTimer() {
-  var rand = Math.round(Math.random() * 500); //+ 500;
+  console.log(cumulaM + "&" + cumulaT)
   var newMole = new Mole();
-  newMole.draw();
-  cumulaT += rand;
-  cumulaM++;
-  //console.log(i);
-  if (cumulaM >= 10) {
-    gameOver();
-  } else {
-    setTimeout(moleTimer, rand);
+
+  for (var i = 0; i < 10; i++) {
+    if (cumulaM == 0) {
+      rand = Math.round(Math.random() * 2000); + 500;
+      newMole.draw();
+      cumulaT += rand;
+      cumulaM++;
+      setTimeout(moleTimer, rand);
+      break
+    }
+    else if (
+      ((newMole.x < (molexTotal[i] + 150)) && (newMole.x > (molexTotal[i] - 150))) ||
+      ((newMole.y < (moleyTotal[i] + 150)) && (newMole.y > (moleyTotal[i] - 150)))
+    ) {
+      //console.log("" + molexTotal[i] + "&" + (newMole.x + 150))
+      continue
+    }
+    else {
+      rand = Math.round(Math.random() * 2000); + 500;
+      newMole.draw();
+      cumulaT += rand;
+      cumulaM++;
+      if (cumulaM >= 10) {
+        gameOver();
+      } else {
+        setTimeout(moleTimer, rand);
+      }
+      break;
+    }
   }
 }
 
-function moleChecker() {
-  moleGod()
-/*
-  for (var i = 0; i < molexTotal.length; i++) {
-    if (i=0) {
-      moleGod()
-    }
-    else if (
-      (molexTotal[i] > newMole.x + 150 && molexTotal[i] < newMole.x - 150) ||
-      (moleyTotal[i] > newMole.y + 150 && moleyTotal[i] < newMole.y - 150)
-    ) {
-      moleGod()
-    }
-    else {
-      moleGod()
-      }
-    }
-  }*/
-}
