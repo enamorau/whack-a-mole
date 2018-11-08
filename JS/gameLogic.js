@@ -20,33 +20,68 @@ var gameOver = function () {
   // moleTimer.i = 0
 };
 
+/* // Gameover countdown
 
 var preGameOver = function () {
   var canvas = document.getElementById("field");
   var ctx = canvas.getContext("2d");
   ctx.font = "100px helvetica";
-  ctx.fillText(countDown(), 100, 100);
+  ctx.fillText(i, 200, 250);
 }
-
+console.log(countdown)
 var countDown = function () {
   var timeleft = 5;
   var Timer = setInterval(function () {
     timeleft --
-    if (timeleft <= 0) clearInterval(Timer);
-    else return timeleft
+    if (timeleft <= 0) clearInterval(countDown);
+    console.log(timeleft) 
   }
   , 1000);
 }
+
+*/
 // TODO creating a Gameplay object
 
-// TODO creating a player object
+var canvas = document.getElementById("field").getContext("2D");
+canvas.addEventListener("mousedown", getPosition, false);
 
-function Player() {
-  this.arearadius = 50;
-  this.attackMoles = function () { };
+function getPosition(event)
+{
+  var x = event.x;
+  var y = event.y;
+
+  var canvas = document.getElementById("field");
+
+  x -= canvas.offsetLeft;
+  y -= canvas.offsetTop;
+
+  alert("x:" + x + " y:" + y);
 }
 
-// Mole prototype
+// event listener for click event
+
+e.addEventListener('click', function(event) {
+   var xVal = event.pageX - elemLeft,
+   yVal = event.pageY - elemTop;
+   console.log(xVal, yVal);
+   elements.forEach(function(ele) {
+      if (yVal > ele.top && yVal < ele.top + ele.height && xVal > ele.left && xVal < ele.left + ele.width) {
+      }
+   });
+}, false);
+elements.push({
+   colour: "#1C2128",
+   width: 250,
+   height: 200,
+   top: 30,
+   left: 20
+});
+elements.forEach(function(ele) {
+   context.fillStyle = element.colour;
+   context.fillRect(ele.left, ele.top, ele.width, ele.height);
+});
+
+// Mole prototype 
 
 function Mole() {
   this.canvas = document.getElementById("field");
@@ -98,26 +133,9 @@ function MoleCoordsOK(x, y) {
    molexTotal.length != moleyTotal.length (both arrays should always have same number of entries)
    OR if molexTotal/moleyTotal contain OBSOLETE coordinate pairs ("whacked" moles)
   */
-  /* NOTE:
-   The logic of your original coordinate test was wrong. Here is
-   your original boolean condition:
-    if (
-    ((x > (molexTotal[i] + 35)) || (x < (molexTotal[i] - 35))) &&
-    ((y > (moleyTotal[i] + 50)) || (y < (moleyTotal[i] - 50)))
-   )
-  Compare this to the if() test below. Take the time to think through coordinate
-  arithmetic. Work it out on a sheet of paper if necessary!
-  */
+  
   for (var i = 0; i < molexTotal.length; i++) {
-    /*
-     We use Math.abs() (abslute value) in if() test
-     for convenience of comparing positive values.
-     makes for a simpler boolean expression.
-     General principle: formula
-      Math.abs(A -B) < X
-     means
-      "A is within X of B"
-    */
+   
     if (
       (Math.abs(x - molexTotal[i]) < 35) &&
       (Math.abs(y - moleyTotal[i]) < 50)
@@ -133,10 +151,10 @@ function MoleCoordsOK(x, y) {
 
 //Mole generator 
 
-
+/*
 function moleTimer() {
 
-  rand = Math.round(Math.random() * 1000) + 500;
+  rand = Math.round(Math.random() * 500) + 500;
   var newMole = new Mole();
 
   // Case 1: no Moles drawn yet, we know we can draw this one
@@ -179,34 +197,6 @@ function moleTimer() {
 }
 
 
-/*
-  for(var i = 0; i< 10; i++) {
-  if (((molexTotal[i] - newMole.x) < 50) || ((moleyTotal[i] - newMole.y) < 50))) {
-   moleTimer()
-   break;
-  }
- }
-}
-
-else {
-​
- rand = Math.round(Math.random() * 2000);
- newMole.draw();
- cumulaT += rand;
- cumulaM++;
- molexTotal.push(newMole.x)
- moleyTotal.push(newMole.y)
-​
- if (cumulaM >= 10) {
-  gameOver();
- } else {
-  setTimeout(moleTimer, rand);
- }
-
-}
-}
-
-*/
 /*
  //click Locator !Not working!
 
