@@ -14,7 +14,7 @@ var molexTotal = []; // X positions for each mole generated
 
 var moleyTotal = []; // Y positions for each mole generated
 
-var rand = Math.round(Math.random() * 500); //+ 500; Random time between each mole
+var rand = Math.round(Math.random() * 2000) + 500; // Random time between each mole
 
 var smash = new Audio('Sound/zapsplat_cartoon_punch_004_17902.mp3');
 
@@ -23,6 +23,8 @@ var pop = new Audio('Sound/zapsplat_cartoon_squeeze_pop_002_18163.mp3');
 var looser = new Audio('Sound/zapsplat_multimedia_game_retro_musical_descend_fail_negative_21484.mp3');
 
 var champion = ""
+
+var champStatus;
 
 var highScore = 0
 
@@ -51,7 +53,7 @@ $(document).ready(function () {
     var canvas = document.getElementById("field");
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, 500, 500);
-    tb = setTimeout(moleTimer, 1000);
+    tb = setTimeout(moleTimer, rand);
     gameStatus = true;
     victoriesDisp(0)
     dispChampion()
@@ -74,6 +76,7 @@ $(document).ready(function () {
     getChampion()
     highScore = victories
     dispChampion()
+    victories = 0
     // moleTimer.i = 0
   };
 
@@ -89,12 +92,14 @@ $(document).ready(function () {
     var erase = ctx.clearRect(0, 0, 500, 500);
     setTimeout(erase, 10000);
     gameStatus = false;
+    victories = 0
     $("#start-game").html("new game ?")
   };
 
   function getChampion() {
     if (victories > highScore) {
-      champion = "Highscore : " + prompt("New High Score !!!", "Please enter your name") + " - " + victories;
+      champStatus = prompt("New High Score !!!", "Please enter your name")
+      champion = "Highscore : " + champStatus + " - " + victories;
     }
   }
 
@@ -102,15 +107,15 @@ $(document).ready(function () {
 
     var canvas = document.getElementById("field");
     var ctx = canvas.getContext("2d");
-    if (champion != null) {
+    if (champStatus != null) {
       ctx.font = "bold 25px helvetica";
       ctx.fillStyle = "white"
-      ctx.fillText(champion, 15, 50);
+      ctx.fillText(champion, 20, 45);
     }
     else {
       ctx.font = "20px helvetica";
       ctx.fillStyle = "white"
-      ctx.fillText("Unknown Champ", 15, 50);
+      ctx.fillText("", 20, 45);
     }
   }
 
@@ -260,7 +265,7 @@ $(document).ready(function () {
 
   var moleYGenerator = function () {
     var moleY = Math.floor(Math.random() * (500 - 56));
-    if (moleY < 50) moleY = 50;
+    if (moleY < 70) moleY = 70;
     return moleY;
   };
 
@@ -275,8 +280,8 @@ $(document).ready(function () {
     for (var i = 0; i < molexTotal.length; i++) {
 
       if (
-        (Math.abs(x - molexTotal[i]) < 35) &&
-        (Math.abs(y - moleyTotal[i]) < 50)
+        (Math.abs(x - molexTotal[i]) < 40) &&
+        (Math.abs(y - moleyTotal[i]) < 55)
       ) {
         console.log("  BAD: " + x + "," + y + " conflicts with " + molexTotal[i] + "," + moleyTotal[i])
         return false;
@@ -292,7 +297,7 @@ $(document).ready(function () {
 
   function moleTimer() {
 
-    rand = Math.round(Math.random() * 500) + 500;
+    rand = Math.round(Math.random() * 1000) + 300;
     var newMole = new Mole();
 
     // Case 1: no Moles drawn yet, we know we can draw this one
@@ -336,7 +341,5 @@ $(document).ready(function () {
     }
   }
 
-
-  var t1;
 
 });
