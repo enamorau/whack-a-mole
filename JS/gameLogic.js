@@ -1,9 +1,38 @@
+// global variables
+
+var t1; //main timeOut
+
+var t0; //first  timeOut
+
+var tb; //start timeOut
+
+var cumulaM = 0; // number of moles displayed 
+
+var cumulaT = 0; // time to display each mole cumulated
+
+var molexTotal = []; // X positions for each mole generated
+
+var moleyTotal = []; // Y positions for each mole generated
+
+var rand = Math.round(Math.random() * 500); //+ 500; Random time between each mole
+
+var smash = new Audio('Sound/zapsplat_cartoon_punch_004_17902.mp3');
+
+var pop = new Audio('Sound/zapsplat_cartoon_squeeze_pop_002_18163.mp3');
+
+var looser = new Audio('Sound/zapsplat_multimedia_game_retro_musical_descend_fail_negative_21484.mp3');
+
+var champion = ""
+
+var highScore = 0
+
+
 
 $(document).ready(function () {
   var gameStatus = false;
 
   $("#start-game").click(function () {
-    
+
     dispChampion()
 
     if (gameStatus == false) {
@@ -22,7 +51,7 @@ $(document).ready(function () {
     var canvas = document.getElementById("field");
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, 500, 500);
-    setTimeout(moleTimer, 1000);
+    tb = setTimeout(moleTimer, 1000);
     gameStatus = true;
     victoriesDisp(0)
     dispChampion()
@@ -31,6 +60,7 @@ $(document).ready(function () {
   var gameOver = function () {
     var canvas = document.getElementById("field");
     var ctx = canvas.getContext("2d");
+    looser.play()
     cumulaM = -1;
     molexTotal = [];
     moleyTotal = [];
@@ -39,9 +69,11 @@ $(document).ready(function () {
     $("#start-game").html("new game ?")
     console.log("Gameover !");
     ctx.font = "80px helvetica";
+    ctx.fillStyle = "white"
     ctx.fillText("GAMEOVER", 15, 270);
     getChampion()
     highScore = victories
+    dispChampion()
     // moleTimer.i = 0
   };
 
@@ -52,6 +84,8 @@ $(document).ready(function () {
     molexTotal = [];
     moleyTotal = [];
     clearTimeout(t1)
+    clearTimeout(t0)
+    clearTimeout(tb)
     var erase = ctx.clearRect(0, 0, 500, 500);
     setTimeout(erase, 10000);
     gameStatus = false;
@@ -59,16 +93,25 @@ $(document).ready(function () {
   };
 
   function getChampion() {
-  if (victories > highScore) {
-  champion = "Highscore : " + prompt("New High Score !!!", "Please enter your name") + " - " + victories;
+    if (victories > highScore) {
+      champion = "Highscore : " + prompt("New High Score !!!", "Please enter your name") + " - " + victories;
+    }
   }
-}
 
-function dispChampion() {
-  var canvas = document.getElementById("field");
-  var ctx = canvas.getContext("2d");
-  ctx.font = "20px helvetica";
-  ctx.fillText(champion, 15, 50);
+  function dispChampion() {
+
+    var canvas = document.getElementById("field");
+    var ctx = canvas.getContext("2d");
+    if (champion != null) {
+      ctx.font = "bold 25px helvetica";
+      ctx.fillStyle = "white"
+      ctx.fillText(champion, 15, 50);
+    }
+    else {
+      ctx.font = "20px helvetica";
+      ctx.fillStyle = "white"
+      ctx.fillText("Unknown Champ", 15, 50);
+    }
   }
 
 
@@ -146,14 +189,15 @@ function dispChampion() {
   function victoriesDisp(victories) {
     var canvas = document.getElementById("field");
     var ctx = canvas.getContext("2d");
-    ctx.font = "30px helvetica";
+    ctx.font = "40px helvetica";
+    ctx.fillStyle = "white"
     ctx.fillText(victories, 450, 50);
   }
 
   function clearOldVictories() {
     var canvas = document.getElementById("field");
     var ctx = canvas.getContext("2d");
-    ctx.clearRect(450, 21, 35, 30);
+    ctx.clearRect(450, 21, 45, 40);
   }
   //Mole Killer
 
@@ -220,30 +264,6 @@ function dispChampion() {
     return moleY;
   };
 
-  // global variables
-
-  var t1; //main timeOut
-
-  var cumulaM = 0; // number of moles displayed 
-
-  var cumulaT = 0; // time to display each mole cumulated
-
-  var molexTotal = []; // X positions for each mole generated
-
-  var moleyTotal = []; // Y positions for each mole generated
-
-  var rand = Math.round(Math.random() * 500); //+ 500; Random time between each mole
-
-  var smash = new Audio('Sound/zapsplat_cartoon_punch_004_17902.mp3');
-
-  var pop = new Audio('Sound/zapsplat_cartoon_squeeze_pop_002_18163.mp3');
-
-  var champion = ""
-
-  var highScore = 0
-  
-
-
 
   // Function to check a Mole's coordinates for overlap
   function MoleCoordsOK(x, y) {
@@ -284,7 +304,7 @@ function dispChampion() {
       cumulaM++;
       molexTotal.push(newMole.x);
       moleyTotal.push(newMole.y);
-      setTimeout(moleTimer, rand);
+      t0 = setTimeout(moleTimer, rand);
     }
     else {
       // Case 2: find coordinates that do not overlap any existing Mole
