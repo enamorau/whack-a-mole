@@ -32,7 +32,7 @@ var highScore = 0
 
 $(document).ready(function () {
   var gameStatus = false;
-
+/*
   console.log(isMobileDevice())
   if (isMobileDevice() == true) {
     $(function () {
@@ -49,7 +49,7 @@ $(document).ready(function () {
       canvas.css("height", ($(window).width()*0.9));
     }
   }
-
+*/
   $("#start-game").click(function () {
 
     dispChampion()
@@ -63,11 +63,11 @@ $(document).ready(function () {
   });
 
   // Mobile devices
-
+/*
   function isMobileDevice() {
     return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
   };
-
+*/
   // Game functions
 
 
