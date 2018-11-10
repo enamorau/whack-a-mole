@@ -45,8 +45,8 @@ $(document).ready(function () {
 
     function resizeCanvas() {
       var canvas = $('#field');
-      canvas.css("width", $(window).width());
-      canvas.css("height", $(window).width());
+      canvas.css("width", ($(window).width()*0.9));
+      canvas.css("height", ($(window).width()*0.9));
     }
   }
 
